@@ -10,6 +10,7 @@ class User(models.Model):
     password = models.CharField("Password", max_length=50)
     phone = models.CharField("Phone", max_length=15)
     created = models.DateField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
