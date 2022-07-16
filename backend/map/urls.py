@@ -13,10 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
+from .views import GeolocationList, GeolocationDetail, GeolocationCreate
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('map/', include('map.urls')),
+    path('', GeolocationList.as_view()),
+    path('create/', GeolocationList.as_view(), name='create-geolocation'),
+    path('<int:pk>/', GeolocationDetail.as_view(), name='retrieve-geolocation'),
+    path('update/<int:pk>/', GeolocationCreate.as_view(), name='update-geolocation'),
 ]
+
