@@ -1,16 +1,36 @@
-import React, { Component } from "react";
+import React from "react";
+import GoogleMapReact from 'google-map-react';
 
-class Contact extends Component {
-  render() {
-    return (
-      <div>
-        <h2>GOT QUESTIONS?</h2>
-        <p>The easiest thing to do is post on
-        our <a href="http://forum.kirupa.com">forums</a>.
-        </p>
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+function Map() {
+  const defaultProps = {
+    center: {
+      lat: 10.99835602,
+      lng: 77.01502627
+    },
+    zoom: 11
+  };
+
+  return (
+    <div>
+      <h2>Map</h2>
+      <hr />
+      <div style={{ height: '100vh', width: '100%' }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "" }}
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
+        >
+          <AnyReactComponent
+            lat={59.955413}
+            lng={30.337844}
+            text="My Marker"
+          />
+        </GoogleMapReact>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default Contact;
+export default Map;
