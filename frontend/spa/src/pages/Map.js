@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, ReactElement } from "react";
+import React, { useEffect, useRef } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 const render = (status: Status) => {
@@ -15,16 +15,25 @@ function MapComponent({
   const ref = useRef();
 
   useEffect(() => {
-    new window.google.maps.Map(ref.current, {
+    const map = new window.google.maps.Map(ref.current, {
       center,
       zoom,
+    });
+    const infoWindow = new google.maps.InfoWindow();
+    const marker = new google.maps.Marker({
+      position: center,
+      map,
+      title: "Hello World!",
+    });
+    marker.addListener("click", () => {
+      infoWindow.close();
+      infoWindow.setContent(marker.getTitle());
+      infoWindow.open(marker.getMap(), marker);
     });
   });
 
   return <div ref={ref} id="map" />;
 }
-
-
 
 function Map() {
   const center = { lat: 23.81279624881605, lng: 90.42770590528086 };
