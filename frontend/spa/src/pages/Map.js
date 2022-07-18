@@ -1,36 +1,45 @@
-import React from "react";
-import GoogleMapReact from 'google-map-react';
+import React, { useEffect, useRef, ReactElement } from "react";
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const render = (status: Status) => {
+  return <h1>{status}</h1>;
+};
+
+function MapComponent({
+  center,
+  zoom,
+}: {
+  center: google.maps.LatLngLiteral;
+  zoom: number;
+}) {
+  const ref = useRef();
+
+  useEffect(() => {
+    new window.google.maps.Map(ref.current, {
+      center,
+      zoom,
+    });
+  });
+
+  return <div ref={ref} id="map" />;
+}
+
+
 
 function Map() {
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627
-    },
-    zoom: 11
-  };
+  const center = { lat: 23.81279624881605, lng: 90.42770590528086 };
+  const zoom = 11;
 
   return (
     <div>
       <h2>Map</h2>
       <hr />
-      <div style={{ height: '100vh', width: '100%' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "" }}
-          defaultCenter={defaultProps.center}
-          defaultZoom={defaultProps.zoom}
-        >
-          <AnyReactComponent
-            lat={59.955413}
-            lng={30.337844}
-            text="My Marker"
-          />
-        </GoogleMapReact>
-      </div>
+      <Wrapper apiKey="" render={render}>
+        <MapComponent center={center} zoom={zoom} />
+      </Wrapper>
     </div>
   );
+  
 }
 
 export default Map;
