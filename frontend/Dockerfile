@@ -3,11 +3,13 @@ FROM node:16.15.0-alpine AS builder
 WORKDIR /frontend
 ENV PATH /frontend/node_modules/.bin:$PATH
 
-COPY ./frontend/package.json ./
-COPY ./frontend/package-lock.json ./
+COPY ./package.json ./
+COPY ./package-lock.json ./
 
-RUN npm install --silent
+RUN npm install
 
-COPY ./frontend ./
+COPY . ./
+
+EXPOSE 3000
 
 CMD ["npm", "start"]

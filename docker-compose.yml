@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  web:
+    build: './frontend/.'
+    command: ''
+    volumes:
+      - ./frontend/:/frontend/
+    ports:
+      - '127.0.0.1:3000:3000'
+    depends_on:
+      - api
+
+  api:
+    build: './backend/.'
+    command: 'gunicorn -b:8000 backend.wsgi'
+    volumes:
+      - ./backend/:/backend/
+    ports:
+      - '127.0.0.1:8000:8000'
+    env_file:
+      - './backend/.env'
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: 'postgres:13.0-alpine'
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data/'
+
+  redis:
+    container_name: 'redis'
+    image: 'redis:3.2.0'
+    ports:
+      - '127.0.0.1:6379:6379'
+    volumes:
+      - 'redisdata:/data'
+
+volumes:
+  pgdata:
+  redisdata:
