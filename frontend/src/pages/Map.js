@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import axios from 'axios';
 
 const render = (status: Status) => {
   return <h1>{status}</h1>;
@@ -20,6 +21,13 @@ function MapComponent({
       zoom,
     });
     const infoWindow = new google.maps.InfoWindow();
+
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = ''
+    axios.get(`http://127.0.0.1:8000/map/`)
+      .then(res => {
+        console.log(res.data);
+      })
+
     const marker = new google.maps.Marker({
       position: center,
       map,
